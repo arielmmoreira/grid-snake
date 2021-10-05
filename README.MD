@@ -1,4 +1,4 @@
-# grid_snake
+# Grid Snake
 This project is an implementation of the game snake using python and pycharm. It's divided into two parts: structural 
 and graphical.
 
