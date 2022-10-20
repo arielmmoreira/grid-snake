@@ -196,9 +196,4 @@ def pause():
                     paused = False
 
 
-def initialize_stuff():
-    global SIZE, HEAD, BODY, FOOD, snake_head, snake, food, board, RIGHT, LEFT, UP, DOWN, current_direction, MOVE, AXIS, RED, BLACK, GREEN, DARK_GREEN, \
-        WIDTH, HEIGHT, BOX_WIDTH, BOX_HEIGHT, head_skin, body_skin, food_skin, clock, screen, paused
-
-
 main()
