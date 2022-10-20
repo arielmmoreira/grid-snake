@@ -1,8 +1,67 @@
 import random, pygame
 from pygame.locals import *
 
+# Board dimensions
+SIZE = 10
+
+# Elements of the game (structure)
+HEAD = 'X'
+BODY = 'O'
+FOOD = '8'
+
+# Initializating elements of the game (structure)
+snake_head = [0, 0]
+snake = [snake_head]
+food = [0, 0]
+board = [[' ' for _ in range(SIZE)] for _ in range(SIZE)]
+
+# Directions
+RIGHT = 'RIGHT'
+LEFT = 'LEFT'
+UP = 'UP'
+DOWN = 'DOWN'
+current_direction = RIGHT
+MOVE = {RIGHT: 1, LEFT: -1, UP: -1, DOWN: 1}
+AXIS = {RIGHT: 1, LEFT: 1, UP: 0, DOWN: 0}
+
+# Positioning head and food
+board[snake_head[0]][snake_head[1]] = HEAD
+board[food[0]][food[1]] = FOOD
+
+# Colors
+RED = (255, 0, 0)
+BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
+DARK_GREEN = (0, 128, 0)
+
+# Graphic dimensions
+WIDTH = 600
+HEIGHT = 600
+
+# Dimensions of each square in the graphic
+BOX_WIDTH = int((WIDTH / SIZE))
+BOX_HEIGHT = int((HEIGHT / SIZE))
+
+# Elements of the game (graphic)
+head_skin = pygame.Surface((BOX_WIDTH, BOX_HEIGHT))
+head_skin.fill(GREEN)
+
+body_skin = pygame.Surface((BOX_WIDTH, BOX_HEIGHT))
+body_skin.fill(DARK_GREEN)
+
+food_skin = pygame.Surface((BOX_WIDTH, BOX_HEIGHT))
+food_skin.fill(RED)
+
+# Pygame configurations
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption('Snake')
+clock = pygame.time.Clock()
+
+
 def main():
-    initialize_stuff()
+
+    pygame.init()
+    spawn_food()
 
     # Game loop
     while True:
@@ -16,6 +75,7 @@ def main():
 
         # Update display
         pygame.display.update()
+
 
 def move():
     global current_direction
@@ -43,6 +103,7 @@ def move():
 
     update()
 
+
 def update():
     global board
 
@@ -61,6 +122,7 @@ def update():
         board[food[0]][food[1]] = FOOD
     else:
         pygame.quit()
+
 
 def draw():
     # Draw (graphic) the elements of the game
@@ -81,10 +143,12 @@ def draw():
                 position = (column * BOX_WIDTH, row * BOX_HEIGHT)
                 screen.blit(food_skin, position)
 
+
 def valid_step():
     if snake_head in snake[1:]:
         return False
     return True
+
 
 def spawn_food():
     global food
@@ -93,6 +157,7 @@ def spawn_food():
         food = [random.randint(0, SIZE - 1), random.randint(0, SIZE - 1)]
         if food in snake:
             food = []
+
 
 def get_keyboard_input():
     for event in pygame.event.get():
@@ -118,6 +183,7 @@ def get_keyboard_input():
             if event.key == K_p:
                 pause()
 
+
 def pause():
     paused = True
     while paused:
@@ -129,67 +195,10 @@ def pause():
                 if event.key == K_p:
                     paused = False
 
+
 def initialize_stuff():
     global SIZE, HEAD, BODY, FOOD, snake_head, snake, food, board, RIGHT, LEFT, UP, DOWN, current_direction, MOVE, AXIS, RED, BLACK, GREEN, DARK_GREEN, \
         WIDTH, HEIGHT, BOX_WIDTH, BOX_HEIGHT, head_skin, body_skin, food_skin, clock, screen, paused
 
-    # Board dimensions
-    SIZE = 10
-
-    # Elements of the game (structure)
-    HEAD = 'X'
-    BODY = 'O'
-    FOOD = '8'
-
-    # Initializating elements of the game (structure)
-    snake_head = [0, 0]
-    snake = [snake_head]
-    food = [0, 0]
-    spawn_food()
-    board = [[' ' for _ in range(SIZE)] for _ in range(SIZE)]
-
-    # Directions
-    RIGHT = 'RIGHT'
-    LEFT = 'LEFT'
-    UP = 'UP'
-    DOWN = 'DOWN'
-    current_direction = RIGHT
-    MOVE = {RIGHT: 1, LEFT: -1, UP: -1, DOWN: 1}
-    AXIS = {RIGHT: 1, LEFT: 1, UP: 0, DOWN: 0}
-
-    # Positioning head and food
-    board[snake_head[0]][snake_head[1]] = HEAD
-    board[food[0]][food[1]] = FOOD
-
-    # Colors
-    RED = (255, 0, 0)
-    BLACK = (0, 0, 0)
-    GREEN = (0, 255, 0)
-    DARK_GREEN = (0, 128, 0)
-
-    # Graphic dimensions
-    WIDTH = 600
-    HEIGHT = 600
-
-    # Dimensions of each square in the graphic
-    BOX_WIDTH = int((WIDTH / SIZE))
-    BOX_HEIGHT = int((HEIGHT / SIZE))
-
-    # Elements of the game (graphic)
-    head_skin = pygame.Surface((BOX_WIDTH, BOX_HEIGHT))
-    head_skin.fill(GREEN)
-
-    body_skin = pygame.Surface((BOX_WIDTH, BOX_HEIGHT))
-    body_skin.fill(DARK_GREEN)
-
-    food_skin = pygame.Surface((BOX_WIDTH, BOX_HEIGHT))
-    food_skin.fill(RED)
-
-    # Pygame stuff
-    pygame.init()
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption('Snake')
-    clock = pygame.time.Clock()
-    paused = False
 
 main()
